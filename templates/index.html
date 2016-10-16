@@ -48,10 +48,19 @@ src="http://maps.google.cn/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOI
 
     $(document).ready(function(){
      $("#search").click(function(event){
-            alert('Alert!');
+            alert('alert');
             var keyword = $("#kw").val()
             $.getJSON('/search/', {'keyword':keyword}, function(res){
-                    var result = res;
+                //var json = '[{"id":"1","tagName":"apple"},{"id":"2","tagName":"orange"},{"id":"3","tagName":"banana"},{"id":"4","tagName":"watermelon"},{"id":"5","tagName":"pineapple"}]';
+                //alert(json);
+                    var json = '[' + res + ']';
+                    alert(json);
+                    $.each(JSON.parse(json), function(idx, obj) {
+	                    //alert(obj.lat);
+                        var latLng = new google.maps.LatLng(obj.lat, obj.lng);
+                        var marker = new google.maps.Marker({position: latLng, map: map});
+
+                    })
             })
         });
     });

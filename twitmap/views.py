@@ -38,9 +38,10 @@ def loaddata():
                 continue
             word = word.lower()
             tags = tags + [word]
-            tmp_entry = poi(lat, lng, tags)
-            poi_list = poi_list + [tmp_entry]
 
+        tmp_entry = poi(lat, lng, tags)
+        poi_list = poi_list + [tmp_entry]
+    print "data size: ", len(poi_list)
     return poi_list
 
 
@@ -53,16 +54,16 @@ def search(request):
         keyword = request.GET['keyword']
     else:
         return render_to_response('')
-    print "keyword: ", keyword
     List = loaddata()
     poi_list = []
     for item in List:
         if keyword in item.tags:
             poi_list = poi_list + [item.toJSON()]
-    # return HttpResponse({'poi_list': poi_list}, content_type='application/json')
-    # return render_to_response("result.html", {'poi_list': poi_list})
+
     result = json.dumps(poi_list)
     print result
+    # return HttpResponse({'poi_list': poi_list}, content_type='application/json')
+    # return render_to_response("result.html", {'poi_list': poi_list})
     return HttpResponse(result, content_type='application/json')
 
 
