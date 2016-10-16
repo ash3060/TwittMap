@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TwittMap</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
+    <script>
+var count = 0;
+var marker1 = new google.maps.Marker();
+var marker2 = new google.maps.Marker();
+var map
+
+function initialize() {
+    count = 0;
+    var mapOptions = {
+        zoom: 10,
+        center: new google.maps.LatLng(59.3, 18.1)
+    };
+    map = new google.maps.Map(document.getElementById('map-canvas'),
+        mapOptions);
+
+    var json = [
+  {
+    "title": "Stockholm",
+    "lat": 59.3,
+    "lng": 18.1,
+    "description": "Stockholm is the capital and the largest city of Sweden and constitutes the most populated urban area in Scandinavia with a population of 2.1 million in the metropolitan area (2010)"
+  },
+  {
+    "title": "Oslo",
+    "lat": 59.9,
+    "lng": 10.8,
+    "description": "Oslo is a municipality, and the capital and most populous city of Norway with a metropolitan population of 1,442,318 (as of 2010)."
+  },
+  {
+    "title": "Copenhagen",
+    "lat": 55.7,
+    "lng": 12.6,
+    "description": "Copenhagen is the capital of Denmark and its most populous city, with a metropolitan population of 1,931,467 (as of 1 January 2012)."
+  }
+];
+
+
+
+for (var i = 0, length = json.length; i < length; i++) {
+  var data = json[i],
+      latLng = new google.maps.LatLng(data.lat, data.lng); 
+
+  // Creating a marker and putting it on the map
+  var marker = new google.maps.Marker({
+    position: latLng,
+    map: map,
+  });
+} 
+}
+
+function placeMarker(position, map) {
+    count = count + 1;
+    if (count == 1) {
+        marker1.setMap(map);
+        marker1.setPosition(position);
+    }
+    else if (count == 2) {
+        marker2.setMap(map);
+        marker2.setPosition(position);
+    }
+    //map.panTo(position);
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+    </script>
+  </head>
+  <body>
+  <form action="/search/" method="get"><center>
+        <br>
+        key word <input id="keyword" type="text" name="keyword" maxlength=100 >
+        <input type="submit" id="search" value="search" name="search">
+    </center></form>
+    <center>
+    <div id="map-canvas" style="width:95%;height:670px; margin-top:20px;"></div>
+    </center>
+  </body>
+</html>
+
