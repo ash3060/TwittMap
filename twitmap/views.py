@@ -1,12 +1,16 @@
 from django.shortcuts import render_to_response
-from django.http import HttpResponse
-import datetime
+from django.http import HttpResponse, JsonResponse
+
+# from ES.connect2es import loaddataES
+
+# import datetime
+import time
 
 import json
 
-import urllib
-import urllib2
-import re
+# import urllib
+# import urllib2
+# import re
 
 
 class poi(object):
@@ -49,9 +53,26 @@ def search(request):
         keyword = request.GET['keyword']
     else:
         return render_to_response('')
+    print "keyword: ", keyword
     List = loaddata()
     poi_list = []
     for item in List:
         if keyword in item.tags:
-            poi_list = poi_list + [item]
-    return render_to_response("result.html", {'poi_list': poi_list})
+            poi_list = poi_list + [item.toJSON()]
+    # return HttpResponse({'poi_list': poi_list}, content_type='application/json')
+    # return render_to_response("result.html", {'poi_list': poi_list})
+    result = json.dumps(poi_list)
+    print result
+    return HttpResponse(result, content_type='application/json')
+
+
+def search1(request):
+    List = loaddata()
+    poi_list = []
+    count = 1
+
+    render_to_response("result.html", {'poi_list': poi_list})
+    while (1):
+        poi_list += List[(count-1)*10:count*10]
+        time.sleep(1)
+        render_to_response("result.html", {'poi_list': poi_list})
