@@ -22,9 +22,23 @@ src="http://maps.google.cn/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOI
 	  	};
 		map = new google.maps.Map(document.getElementById("map_canvas"),mapProp);
 
-        google.maps.event.addListener(document.getElementById("search"),"click", function(){
-                alert('Alert!');
-        });
+        function searchkw(){
+            alert('alert');
+            var keyword = $("#kw").val()
+            $.getJSON('/search/', {'keyword':keyword}, function(res){
+                var json = '[' + res + ']';
+                alert(json);
+                $.each(JSON.parse(json), function(idx, obj) {
+	                //alert(obj.lat);
+                    var latLng = new google.maps.LatLng(obj.lat, obj.lng);
+                    var marker = new google.maps.Marker({position: latLng, map: map});
+	                alert(marker);
+                })
+            })
+        }
+
+        google.maps.event.addDomListener(document.getElementById("search"),"click", searchkw);
+
 
 	}
 
@@ -39,7 +53,7 @@ src="http://maps.google.cn/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOI
 
 <div style="position:absolute;top:30px;right:150px;">
     <input id="kw" style="width:200px;height:30px;" type="text">
-    <input type="submit" id="search" value="search" name="search">    
+    <button id="search" type="button">Search</button>
 </div>
 
 <div id="tagclouds" style="position:absolute;top:70px;right:70px;width:280px;height:280px;">
