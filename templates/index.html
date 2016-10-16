@@ -22,44 +22,9 @@ src="http://maps.google.cn/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOI
 	  	};
 		map = new google.maps.Map(document.getElementById("map_canvas"),mapProp);
 
-	    map.enableKeyDragZoom({
-	        key: "shift",
-	        boxStyle: {
-	            border: "2px solid blue",
-	            backgroundColor: "transparent",
-	            opacity: 1
-	        },
-	        veilStyle: {
-	            backgroundColor: "gray",
-	            opacity: 0.1
-	        },
-	        visualEnabled: true,
-	        visualPosition: google.maps.ControlPosition.LEFT,
-	        visualPositionOffset: new google.maps.Size(12, 0),
-	        visualPositionIndex: null,
-	        visualSprite: "http://www.mzwu.com/pic/201105/dragzoom_btn.png",
-	        visualSize: new google.maps.Size(20, 20),
-	        visualTips: {
-	            off: "Turn on",
-	            on: "Turn off"
-	        }
-	    });
-
-        function searchkw(){
-            alert('alert');
-            var keyword = $("#kw").val()
-            $.getJSON('/search/', {'keyword':keyword}, function(res){
-                var json = '[' + res + ']';
-                alert(json);
-                $.each(JSON.parse(json), function(idx, obj) {
-	                //alert(obj.lat);
-                    var latLng = new google.maps.LatLng(obj.lat, obj.lng);
-                    var marker = new google.maps.Marker({position: latLng, map: map});
-                })
-            })
-        }
-
-        google.maps.event.addDomListener(document.getElementById('search'),'click', searchkw);
+        google.maps.event.addListener(document.getElementById("search"),"click", function(){
+                alert('Alert!');
+        });
 
 	}
 
