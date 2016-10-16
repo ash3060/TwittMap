@@ -23,16 +23,13 @@ src="http://maps.google.cn/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOI
 		map = new google.maps.Map(document.getElementById("map_canvas"),mapProp);
 
         function searchkw(){
-            alert('alert');
             var keyword = $("#kw").val()
             $.getJSON('/search/', {'keyword':keyword}, function(res){
                 var json = '[' + res + ']';
-                alert(json);
                 $.each(JSON.parse(json), function(idx, obj) {
 	                //alert(obj.lat);
                     var latLng = new google.maps.LatLng(obj.lat, obj.lng);
                     var marker = new google.maps.Marker({position: latLng, map: map});
-	                alert(marker);
                 })
             })
         }
