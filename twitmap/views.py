@@ -30,8 +30,8 @@ def loaddata():
     print res.hits.total
     data = []
     for hit in res:
-        lat = hit['coordinates'][0]
-        lng = hit['coordinates'][1]
+        lat = hit['coordinates'][1]
+        lng = hit['coordinates'][0]
         text = hit['text']
         print lat,', ', lng
         data.append(poi(lat, lng, text.lower().split(' ')))

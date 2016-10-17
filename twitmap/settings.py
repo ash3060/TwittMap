@@ -11,7 +11,9 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
-
+from ES.TwitterStreamListener import TwitterStreamListener
+import ES.Config as Config
+import tweepy
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -119,3 +121,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+
+listener = TwitterStreamListener()
+auth = tweepy.OAuthHandler(Config.twitter_consumer_key, Config.twitter_consumer_secret)
+auth.set_access_token(Config.twitter_access_token, Config.twitter_access_token_secret)
+stream = tweepy.Stream(auth, listener)
+stream.filter(locations=[-180.0,-90.0,180.0,90.0], async=True)

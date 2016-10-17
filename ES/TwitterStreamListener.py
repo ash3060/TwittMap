@@ -29,9 +29,9 @@ class TwitterStreamListener(tweepy.StreamListener):
 
 
 
-listener = TwitterStreamListener()
-auth = tweepy.OAuthHandler(Config.consumer_key, Config.consumer_secret)
-auth.set_access_token(Config.access_token, Config.access_token_secret)
-stream = tweepy.Stream(auth, listener)
-stream.filter(locations=[-180.0,-90.0,180.0,90.0], async=True)
+#listener = TwitterStreamListener()
+#auth = tweepy.OAuthHandler(Config.twitter_consumer_key, Config.consumer_secret)
+#auth.set_access_token(Config.access_token, Config.access_token_secret)
+#stream = tweepy.Stream(auth, listener)
+#stream.filter(locations=[-180.0,-90.0,180.0,90.0], async=True)
 #myStream.filter(locations=[-127.33,23.34,-55.52,49.56])
