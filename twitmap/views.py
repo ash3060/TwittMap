@@ -1,8 +1,8 @@
 from django.shortcuts import render_to_response
 from django.http import HttpResponse, JsonResponse
-
-# from ES.connect2es import loaddataES
-
+import ES.ESConnection as ESConnection
+import ES.Config as Config
+from elasticsearch_dsl import Search
 # import datetime
 import time
 
@@ -24,25 +24,18 @@ class poi(object):
 
 
 def loaddata():
-    poi_list = []
-    data_file = open('data/data.json')
-    lines = data_file.readlines()
-    for line in lines:
-        line = line.strip()
-        entry = json.loads(line)
-        lat = float(entry["latlng"][0])
-        lng = float(entry["latlng"][1])
-        tags = []
-        for word in entry["name"].split(' '):
-            if word == '':
-                continue
-            word = word.lower()
-            tags = tags + [word]
-
-        tmp_entry = poi(lat, lng, tags)
-        poi_list = poi_list + [tmp_entry]
-    print "data size: ", len(poi_list)
-    return poi_list
+    es = ESConnection.getESConnection()
+    query = Search(index='t1').using(es).filter('range', timestamp_ms={'gte': 'now-5d', 'lt': 'now'})
+    res = query.execute()
+    print res.hits.total
+    data = []
+    for hit in res:
+        lat = hit['coordinates'][0]
+        lng = hit['coordinates'][1]
+        text = hit['text']
+        print lat,', ', lng
+        data.append(poi(lat, lng, text.lower().split(' ')))
+    return data
 
 
 def index(request):
