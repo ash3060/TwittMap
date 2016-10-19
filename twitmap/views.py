@@ -25,9 +25,9 @@ class poi(object):
 
 def loaddata():
     es = ESConnection.getESConnection()
-    query = Search(index='t1').using(es).filter('range', timestamp_ms={'gte': 'now-5d', 'lt': 'now'})
-    res = query.execute()
-    print res.hits.total
+    query = Search(index='t1').using(es).filter('range', timestamp_ms={'gte': 'now-5h', 'lt': 'now'})
+    res = query.scan()
+    #print res.hits.total
     data = []
     for hit in res:
         lat = hit['coordinates'][1]
