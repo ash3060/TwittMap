@@ -25,15 +25,15 @@ class poi(object):
 
 def loaddata():
     es = ESConnection.getESConnection()
-    query = Search(index='t1').using(es).filter('range', timestamp_ms={'gte': 'now-5d', 'lt': 'now'})
-    res = query.execute()
-    print res.hits.total
+    query = Search(index='t1').using(es).filter('range', timestamp_ms={'gte': 'now-5h', 'lt': 'now'})
+    res = query.scan()
+    # print res.hits.total
     data = []
     for hit in res:
         lat = hit['coordinates'][1]
         lng = hit['coordinates'][0]
         text = hit['text']
-        print lat,', ', lng
+        # print lat,', ', lng
         data.append(poi(lat, lng, text.lower().split(' ')))
     return data
 
@@ -58,15 +58,3 @@ def search(request):
     # return HttpResponse({'poi_list': poi_list}, content_type='application/json')
     # return render_to_response("result.html", {'poi_list': poi_list})
     return HttpResponse(result, content_type='application/json')
-
-
-def search1(request):
-    List = loaddata()
-    poi_list = []
-    count = 1
-
-    render_to_response("result.html", {'poi_list': poi_list})
-    while (1):
-        poi_list += List[(count-1)*10:count*10]
-        time.sleep(1)
-        render_to_response("result.html", {'poi_list': poi_list})
