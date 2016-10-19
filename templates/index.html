@@ -27,20 +27,26 @@ src="http://maps.google.cn/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOI
             for(i=0; i<markers.length; i++){
                 markers[i].setMap(null);
             }
+            map.setZoom(2);
             var keyword = $("#kw").val()
             $.getJSON('/search/', {'keyword':keyword}, function(res){
                 var json = '[' + res + ']';
                 $.each(JSON.parse(json), function(idx, obj) {
-	                //alert(obj.lat);
                     var latLng = new google.maps.LatLng(obj.lat, obj.lng);
                     var marker = new google.maps.Marker({position: latLng, map: map});
+                    var info = new google.maps.InfoWindow({ content: '<div id="content"><div id="siteNotice"></div><h1 id="firstHeading" class="firstHeading">'+obj.usr+'</h1><div id="bodyContent"><p>'+obj.txt+'</p>'});                    
+
+                    marker.addListener('click', function() {
+                        map.setZoom(8);
+                        map.setCenter(marker.getPosition());
+                        info.open(map, marker);
+                    });
                     markers.push(marker);
                 })
             })
         }
 
         google.maps.event.addDomListener(document.getElementById("search"),"click", searchkw);
-
 
 	}
 
