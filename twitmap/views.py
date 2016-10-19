@@ -27,7 +27,7 @@ def loaddata():
     es = ESConnection.getESConnection()
     query = Search(index='t1').using(es).filter('range', timestamp_ms={'gte': 'now-5h', 'lt': 'now'})
     res = query.scan()
-    # print res.hits.total
+    #print res.hits.total
     data = []
     for hit in res:
         lat = hit['coordinates'][1]
