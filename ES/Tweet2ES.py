@@ -64,7 +64,7 @@ def addTweets(data):
         counter += 1
 
         if counter % bulk_chunk_size == 0 or counter == list_size:
-            print "ElasticSearch bulk index (index: {INDEX}, type: {TYPE})...".format(INDEX=index, TYPE=type)
+            # print "ElasticSearch bulk index (index: {INDEX}, type: {TYPE})...".format(INDEX=index, TYPE=type)
             success, _ = bulk(es, bulk_data)
-            print 'ElasticSearch indexed %d documents' % success
+            # print 'ElasticSearch indexed %d documents' % success
             bulk_data = []

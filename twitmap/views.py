@@ -26,7 +26,9 @@ class poi(object):
 
 def loaddata():
     es = ESConnection.getESConnection()
-    query = Search(index='t1').using(es).filter('range', timestamp_ms={'gte': 'now-5h', 'lt': 'now'})
+    # print "connection cost: ", time.time()-mtime
+    query = Search(index='t1').using(es).filter('range', timestamp_ms={'gte': 'now-30m', 'lt': 'now'})
+    # print "query cost: ", time.time()-mtime
     res = query.scan()
     #print res.hits.total
     data = []
@@ -55,7 +57,7 @@ def search(request):
     for item in List:
         if keyword in item.txt.lower().split(' '):
             poi_list = poi_list + [item.toJSON()]
-
+    # print "search keyword cost: ", time.time()-mtime
     result = json.dumps(poi_list)
     # print result
     # return HttpResponse({'poi_list': poi_list}, content_type='application/json')

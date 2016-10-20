@@ -24,7 +24,7 @@ class TwitterStreamListener(tweepy.StreamListener):
             print 'Tweet2ES error'
         #print decoded['coordinates']
         #print '@%s: %s' % (decoded['user']['screen_name'], decoded['text'].encode('ascii', 'ignore'))
-        print ''
+        # print ''
         return True
 
 
