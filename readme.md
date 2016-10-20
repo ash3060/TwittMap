@@ -23,6 +23,6 @@ Type something and click search. It will search tweets posted recently (30 minut
 
 If there are no tweet posted recently containing this keyword, the web will tell you there is no result. 
 
-Else you will see the tweets as markers on the Google Map where they are posted. Click a marker and you will see the user who posted this tweet and the content of the tweet.
+Else you will see the tweets as markers on the Google Map where they are posted. Click a marker and you will see the user who posted this tweet and the content of the tweet, as well as the Google Street View. Sometimes there is no street view where the tweet was posted. It's Google Maps' problem.
 
 As for the keywords, it is quite usual that there is no tweets posted recently containing a certain keyword. However, if you choose an arbitary word, e.g. 'the', there will be a lot of tweets containing it.
