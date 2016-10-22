@@ -1,57 +1,82 @@
 <html>
 <head>
 
-<script
-src="http://maps.google.cn/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false">
-</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4FPsdZjwzFZlhVi0b1iZFJp4JXTQoEaY"></script>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 <script type="text/javascript">
-
-	var center = new google.maps.LatLng(1.34194,103.848);
+	var center = new google.maps.LatLng(40.758896, -73.985130);
 	var map;
-
+    var panorama;
+    var markers = [];
 	function initialize()
 	{
 		var mapProp = {
 		  	center:center,
-		  	zoom:14,
+		  	zoom:2,
+            streetViewControl: false,
 		  	mapTypeId:google.maps.MapTypeId.ROADMAP
 	  	};
-		map = new google.maps.Map(document.getElementById("map_canvas"),mapProp);
-
+        var sv = new google.maps.StreetViewService();
+        panorama = new google.maps.StreetViewPanorama(document.getElementById('pano'));        
+		map = new google.maps.Map(document.getElementById("map-canvas"),mapProp);
+        sv.getPanorama({location: center, radius: 100}, processSVData);        
+        //map.setStreetView(panorama);
         function searchkw(){
-            alert('alert');
+            for(i=0; i<markers.length; i++){
+                markers[i].setMap(null);
+            }
+            markers = [];
+            map.setZoom(2);
             var keyword = $("#kw").val()
             $.getJSON('/search/', {'keyword':keyword}, function(res){
                 var json = '[' + res + ']';
-                alert(json);
                 $.each(JSON.parse(json), function(idx, obj) {
-	                //alert(obj.lat);
                     var latLng = new google.maps.LatLng(obj.lat, obj.lng);
                     var marker = new google.maps.Marker({position: latLng, map: map});
-	                alert(marker);
+                    var info = new google.maps.InfoWindow({ content: '<div id="content"><div id="siteNotice"></div><h1 id="firstHeading" class="firstHeading">'+obj.usr+'</h1><div id="bodyContent"><p>'+obj.txt+'</p>'});                    
+                    marker.addListener('click', function() {
+                        map.setZoom(7);
+                        map.setCenter(marker.getPosition());
+                        info.open(map, marker);
+                        sv.getPanorama({location: marker.getPosition(), radius: 100}, processSVData);
+                        //panorama.setOptions({position: latLng});
+                    });
+                    markers.push(marker);
                 })
+                if (markers.length == 0) {
+                    alert('No tweet post recently contains this keyword.');
+                }
             })
         }
-
         google.maps.event.addDomListener(document.getElementById("search"),"click", searchkw);
-
-
 	}
 
+    function processSVData(data, status) {
+        if (status === 'OK') {
+          panorama.setPano(data.location.pano);
+          panorama.setPov({
+            heading: 270,
+            pitch: 0
+          });
+          panorama.setVisible(true);
+        } else {
+          alert('Street View data not found for this location.');
+        }
+    }
 	google.maps.event.addDomListener(window, 'load', initialize);
-
 </script>
 </head>
 
 <body>
 
-<div id="map_canvas" style="width:100%; height:100%"></div>
+<div id="map-canvas" style="width: 60%; height: 100%;float:left"></div>
+<div id="pano" style="width: 40%; height: 100%;float:left"></div>
 
-<div style="position:absolute;top:30px;right:150px;">
+<div style="position:absolute;top:30px;left:150px;">
     <input id="kw" style="width:200px;height:30px;" type="text">
     <button id="search" type="button">Search</button>
 </div>
@@ -64,4 +89,3 @@ src="http://maps.google.cn/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOI
 
 </body>
 </html>
-
