@@ -14,6 +14,8 @@ import os
 from ES.TwitterStreamListener import TwitterStreamListener
 import ES.Config as Config
 import tweepy
+from threading import Thread
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -122,8 +124,22 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-listener = TwitterStreamListener()
-auth = tweepy.OAuthHandler(Config.twitter_consumer_key, Config.twitter_consumer_secret)
-auth.set_access_token(Config.twitter_access_token, Config.twitter_access_token_secret)
-stream = tweepy.Stream(auth, listener)
-stream.filter(locations=[-180.0,-90.0,180.0,90.0], async=True)
+class TwitterThread(Thread):
+    def __init__(self):
+        Thread.__init__(self)
+
+    def run(self):
+        while (True):
+            try:
+                listener = TwitterStreamListener()
+                auth = tweepy.OAuthHandler(Config.twitter_consumer_key, Config.twitter_consumer_secret)
+                auth.set_access_token(Config.twitter_access_token, Config.twitter_access_token_secret)
+                stream = tweepy.Stream(auth, listener)
+                stream.filter(locations=[-180.0, -90.0, 180.0, 90.0])
+            except Exception, e:
+                print e
+
+thread = TwitterThread()
+thread.start()
+
+
