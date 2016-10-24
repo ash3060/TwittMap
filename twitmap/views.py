@@ -24,7 +24,11 @@ class poi(object):
         return json.dumps(self.__dict__)
 
 
-def loaddata():
+def loaddata(hascenter, center=None, radius=None):
+    # if (hascenter):
+        # has center and radius
+    # else:
+        # don't have center and radius
     es = ESConnection.getESConnection()
     # print "connection cost: ", time.time()-mtime
     query = Search(index='t1').using(es).filter('range', timestamp_ms={'gte': 'now-30m', 'lt': 'now'})
@@ -51,8 +55,21 @@ def search(request):
         keyword = request.GET['keyword']
     else:
         return render_to_response('')
+    hascenter = False;
+    if ('center' in request.GET and request.GET['center']
+        and 'radius' in request.GET and request.GET['radius']):
+        hascenter = True
+        center = request.GET['center']  # 41.244772,-98.4375
+        radius = request.GET['radius']
+        print center
+        print radius
+
     keyword = keyword.lower()
-    List = loaddata()
+    if (hascenter):
+        List = loaddata(True, center, radius)
+    else:
+        List = loaddata(False)
+
     poi_list = []
     for item in List:
         if keyword in item.txt.lower().split(' '):

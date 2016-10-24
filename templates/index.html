@@ -31,8 +31,13 @@
             }
             markers = [];
             map.setZoom(2);
-            var keyword = $("#kw").val()
-            $.getJSON('/search/', {'keyword':keyword}, function(res){
+            var keyword = $("#kw").val();
+            var center = $("#center").val();
+            var radius = $("#radius").val();
+            if ((center=="" && radius!="") || (center!="" && radius=="")) {
+                alert('Center and radius should be both valid or both null.');
+            }else {
+            $.getJSON('/search/', {'keyword':keyword, 'center':center, 'radius':radius}, function(res){
                 var json = '[' + res + ']';
                 $.each(JSON.parse(json), function(idx, obj) {
                     var latLng = new google.maps.LatLng(obj.lat, obj.lng);
@@ -51,7 +56,12 @@
                     alert('No tweet post recently contains this keyword.');
                 }
             })
+            }
         }
+        google.maps.event.addListener(map, 'click', function(e) {
+                document.getElementById("center").value = e.latLng.toUrlValue();
+        });
+
         google.maps.event.addDomListener(document.getElementById("search"),"click", searchkw);
 	}
 
@@ -77,7 +87,11 @@
 <div id="pano" style="width: 40%; height: 100%;float:left"></div>
 
 <div style="position:absolute;top:30px;left:150px;">
-    <input id="kw" style="width:200px;height:30px;" type="text">
+    Center Coordinate <input id="center" type="text" name="center" maxlength=100 readonly>,   
+     Radis <input id="radius" type="text" name="radius" maxlength=100>m
+</div>
+<div style="position:absolute;top:60px;left:150px;">
+    keyword <input id="kw" style="width:200px;height:20px;" type="text">
     <button id="search" type="button">Search</button>
 </div>
 
