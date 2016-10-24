@@ -31,7 +31,12 @@ def loaddata(hascenter, center=None, radius=None):
         # don't have center and radius
     es = ESConnection.getESConnection()
     # print "connection cost: ", time.time()-mtime
-    query = Search(index='t1').using(es).filter('range', timestamp_ms={'gte': 'now-30m', 'lt': 'now'})
+    if (hascenter):
+        query = Search(index='t1').using(es).filter('range', timestamp_ms={'gte': 'now-30m', 'lt': 'now'}).\
+        filter('geo_distance', coordinates={'distance':radius+"km", 'location':center})
+    else:
+        query = Search(index='t1').using(es).filter('range', timestamp_ms={'gte': 'now-30m', 'lt': 'now'})
+
     # print "query cost: ", time.time()-mtime
     res = query.scan()
     #print res.hits.total
