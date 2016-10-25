@@ -64,8 +64,12 @@ def search(request):
     if ('center' in request.GET and request.GET['center']
         and 'radius' in request.GET and request.GET['radius']):
         hascenter = True
-        center = request.GET['center']  # 41.244772,-98.4375
+        centerS = request.GET['center']  # 41.244772,-98.4375
         radius = request.GET['radius']
+        index = centerS.find(',')
+        center=[]
+        center.append(float(centerS[:index]))
+        center.append(float(centerS[index+1:]))
         print center
         print radius
 
