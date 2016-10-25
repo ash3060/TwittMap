@@ -33,7 +33,7 @@ def loaddata(hascenter, center=None, radius=None):
     # print "connection cost: ", time.time()-mtime
     if (hascenter):
         query = Search(index='t1').using(es).filter('range', timestamp_ms={'gte': 'now-30m', 'lt': 'now'}).\
-        filter('geo_distance', coordinates={'distance':radius+"km", 'location':center})
+        filter({'geo_distance': {'distance':radius+"km",'coordinates':[float(center[1]), float(center[0])]}})
     else:
         query = Search(index='t1').using(es).filter('range', timestamp_ms={'gte': 'now-30m', 'lt': 'now'})
 
