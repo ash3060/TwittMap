@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
-from twitmap.views import index, search
+from twitmap.views import index, search, confirm
 
 
 urlpatterns = [

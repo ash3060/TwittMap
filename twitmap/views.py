@@ -98,4 +98,5 @@ def search(request):
 
 
 def confirm(request):
-    print json.dumps(request.POST)
+    print request
+    return render_to_response('index.html')
