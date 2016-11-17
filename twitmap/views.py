@@ -53,6 +53,7 @@ def loaddata(hascenter, center=None, radius=None):
 
 
 def index(request):
+    print 'index'
     if request.method == 'POST':
         print request.POST
     return render_to_response('index.html')
