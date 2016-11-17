@@ -56,6 +56,11 @@ def index(request):
     print 'index'
     if request.method == 'POST':
         print request.POST
+        body = json.loads(request.body)
+        url = body['SubscribeURL']
+        res = HttpResponse(url, status=302)
+        res['Location'] = url
+        return res
     return render_to_response('index.html')
 
 

@@ -141,5 +141,3 @@ class TwitterThread(Thread):
 
 thread = TwitterThread()
 thread.start()
-
-
