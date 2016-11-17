@@ -1,0 +1,5 @@
+€}q(U	ES.Config]q(Ues_portqUes_access_secretqUtwitter_access_tokenqUtwitter_access_token_secretqUtwitter_consumer_secretqUes_bulk_chunk_sizeqUes_access_keyq	Ues_nameq
+U	es_regionqUtwitter_consumer_keyqUes_hostqeUtwitmap.settings]q(U	DATABASESqUMIDDLEWARE_CLASSESqUUSE_I18NqULANGUAGE_CODEqUROOT_URLCONFqU
+SECRET_KEYqUBASE_DIRqU	TEMPLATESqU	TIME_ZONEqUWSGI_APPLICATIONqUALLOWED_HOSTSqUAUTH_PASSWORD_VALIDATORSqU
+STATIC_URLqUTwitterThreadqUUSE_L10NqUDEBUGqUUSE_TZqUINSTALLED_APPSq Uthreadq!eUES.TwitterStreamListener]q"UTwitterStreamListenerq#aUmanage]UES.Tweet2ES]q$(Utweet_mappingq%Uindexq&Utypeq'U	addTweetsq(Umappingq)U
+parseTweetq*Ucreate_indexq+Ubulk_chunk_sizeq,eUtwitmap.wsgi]q-Uapplicationq.aUtwitmap]Utest]q/(Uresq0Utxtq1Ualchemy_languageq2eUES.ESConnection]q3UgetESConnectionq4aUtwitmap.urls]q5Uurlpatternsq6aUtwitmap.views]q7(Upoiq8h&Usearchq9Uloaddataq:eUES]u.

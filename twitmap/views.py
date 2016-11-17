@@ -7,6 +7,7 @@ from elasticsearch_dsl import Search
 import time
 
 import json
+from watson_developer_cloud import AlchemyLanguageV1
 
 # import urllib
 # import urllib2
@@ -79,13 +80,22 @@ def search(request):
     else:
         List = loaddata(False)
 
+    alchemy_language = AlchemyLanguageV1(api_key='a3cb86812805b8f50074201572d8310c864081bd')
+
     poi_list = []
     for item in List:
         if keyword in item.txt.lower().split(' '):
             poi_list = poi_list + [item.toJSON()]
+            sentRes = alchemy_language.sentiment(text=item.txt)
+            # print item.txt
+            # print sentRes['docSentiment']['type']
     # print "search keyword cost: ", time.time()-mtime
     result = json.dumps(poi_list)
     # print result
     # return HttpResponse({'poi_list': poi_list}, content_type='application/json')
     # return render_to_response("result.html", {'poi_list': poi_list})
     return HttpResponse(result, content_type='application/json')
+
+
+def confirm(request):
+    print json.dumps(request.POST)

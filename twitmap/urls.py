@@ -23,4 +23,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', index),
     url(r'^search/$', search),
+    url(r'^1.1/$', confirm),
 ]
