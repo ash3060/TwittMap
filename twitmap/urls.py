@@ -16,12 +16,11 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
-from twitmap.views import index, search, confirm
+from twitmap.views import index, search
 
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', index),
     url(r'^search/$', search),
-    url(r'^1.1/$', confirm),
 ]

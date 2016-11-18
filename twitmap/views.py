@@ -8,6 +8,7 @@ import time
 
 import json
 from watson_developer_cloud import AlchemyLanguageV1
+from django.views.decorators.csrf import csrf_exempt
 
 # import urllib
 # import urllib2
@@ -52,6 +53,7 @@ def loaddata(hascenter, center=None, radius=None):
     return data
 
 
+@csrf_exempt
 def index(request):
     print 'index'
     if request.method == 'POST':
@@ -100,9 +102,3 @@ def search(request):
     # print "search keyword cost: ", time.time()-mtime
     result = json.dumps(poi_list)
     return HttpResponse(result, content_type='application/json')
-
-
-def confirm(request):
-    print "print request"
-    print request
-    return render_to_response('index.html')
