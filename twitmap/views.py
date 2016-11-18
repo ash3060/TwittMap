@@ -1,5 +1,5 @@
 from django.shortcuts import render_to_response
-from django.http import HttpResponse, JsonResponse, Http404
+from django.http import HttpResponse, HttpResponseRedirect
 import ES.ESConnection as ESConnection
 import ES.Config as Config
 from elasticsearch_dsl import Search
@@ -57,12 +57,9 @@ def loaddata(hascenter, center=None, radius=None):
 def index(request):
     print 'index'
     if request.method == 'POST':
-        print request.POST
         body = json.loads(request.body)
         url = body['SubscribeURL']
-        res = HttpResponse(url, status=302)
-        res['Location'] = url
-        return res
+        return HttpResponseRedirect(url)
     return render_to_response('index.html')
 
 
