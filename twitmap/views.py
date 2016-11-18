@@ -1,5 +1,6 @@
 from django.shortcuts import render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
+import requests
 import ES.ESConnection as ESConnection
 import ES.Config as Config
 from elasticsearch_dsl import Search
@@ -13,7 +14,6 @@ from django.views.decorators.csrf import csrf_exempt
 # import urllib
 # import urllib2
 # import re
-
 
 class poi(object):
     def __init__(self, _lat, _lng, _usr, _txt):
@@ -59,7 +59,8 @@ def index(request):
     if request.method == 'POST':
         body = json.loads(request.body)
         url = body['SubscribeURL']
-        return HttpResponseRedirect(url)
+        r = requests.get(url)
+        return HttpResponse(r)
     return render_to_response('index.html')
 
 
