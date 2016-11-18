@@ -58,9 +58,13 @@ def index(request):
     print 'index'
     if request.method == 'POST':
         body = json.loads(request.body)
-        url = body['SubscribeURL']
-        r = requests.get(url)
-        return HttpResponse(r)
+        if body['Type'] == 'SubscriptionConfirmation':
+            url = body['SubscribeURL']
+            r = requests.get(url)
+            return HttpResponse(r)
+        elif body['Type'] == 'Notification':
+            msg = body['Message']
+            return HttpResponse(json.dumps({'message': msg}), content_type='application/json')
     return render_to_response('index.html')
 
 
